@@ -1,4 +1,4 @@
-package models;
+package cool.raptor.models;
 
 public class Particle {
 

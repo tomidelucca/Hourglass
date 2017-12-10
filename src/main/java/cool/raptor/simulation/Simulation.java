@@ -1,4 +1,4 @@
-package simulation;
+package cool.raptor.simulation;
 
 import java.util.ArrayList;
 import java.util.List;
