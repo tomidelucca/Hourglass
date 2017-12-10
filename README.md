@@ -19,7 +19,5 @@ java -jar target/hourglass-1.0-SNAPSHOT.jar [parameters]
 
 ## Supported parameters
 
-
-
 ## Credits
-© Tomi De Lucca, 2017.
+© Raptor/2, 2017.
