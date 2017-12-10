@@ -1,4 +1,4 @@
-package cool.raptor.models;
+package cool.raptor.hourglass.models;
 
 public class Particle {
 

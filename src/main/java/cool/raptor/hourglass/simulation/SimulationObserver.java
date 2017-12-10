@@ -1,4 +1,4 @@
-package cool.raptor.simulation;
+package cool.raptor.hourglass.simulation;
 
 public interface SimulationObserver {
     void notify(Simulation simulation);

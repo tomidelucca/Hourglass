@@ -1,4 +1,4 @@
-package cool.raptor.simulation;
+package cool.raptor.hourglass.simulation;
 
 import java.util.ArrayList;
 import java.util.List;

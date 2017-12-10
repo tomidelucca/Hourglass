@@ -1,4 +1,4 @@
-package cool.raptor;
+package cool.raptor.hourglass;
 
 public class Main {
 
