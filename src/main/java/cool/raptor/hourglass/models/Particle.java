@@ -2,21 +2,29 @@ package cool.raptor.hourglass.models;
 
 public class Particle {
 
+    private Integer id;
     private Vector position;
     private Vector velocity;
     private Double radius;
     private Double mass;
-    private String id;
 
     public Particle(Vector position) {
         this.position = position;
     }
 
-    public String getId() {
+    public Particle(int id, Vector position, Vector velocity, Double radius, Double mass) {
+        this.id = id;
+        this.position = position;
+        this.velocity = velocity;
+        this.radius = radius;
+        this.mass = mass;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -85,5 +93,9 @@ public class Particle {
         result = 31 * result + (mass != null ? mass.hashCode() : 0);
         result = 31 * result + (id != null ? id.hashCode() : 0);
         return result;
+    }
+
+    public String print() {
+        return position.getX() + " " + position.getY() + " " + position.getZ() + " " + velocity.getX() + " " + velocity.getY() + " " + velocity.getZ() + " " + radius;
     }
 }

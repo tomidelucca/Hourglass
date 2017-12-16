@@ -46,6 +46,10 @@ public class Vector {
                 Math.pow(getZ()-otherVector.getZ(), 2));
     }
 
+    public double mod() {
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,5 +74,9 @@ public class Vector {
     @Override
     public String toString() {
         return "(" + getX() + "; " + getY() + "; " + getZ() + ")";
+    }
+
+    public static Vector rest(Vector vector1, Vector vector2) {
+        return new Vector(vector1.getX() - vector2.getX(), vector1.getY() - vector2.getY(), vector1.getZ() - vector2.getZ());
     }
 }

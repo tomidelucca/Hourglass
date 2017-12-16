@@ -20,10 +20,25 @@ public abstract class Simulation {
         }
     }
 
+    protected void startSimulation() {
+        for(SimulationObserver obs: observers) {
+            obs.simulationDidStart(this);
+        }
+    }
+
     protected void finishSimulation() {
         for(SimulationObserver obs: observers) {
             obs.simulationDidFinish(this);
         }
+    }
+
+    protected Boolean shouldStopSimulation() {
+        for(SimulationObserver obs: observers) {
+            if(obs.shouldStopSimulation(this)) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
     }
 
     public abstract Boolean simulate();
