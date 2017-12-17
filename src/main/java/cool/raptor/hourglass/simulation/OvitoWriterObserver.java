@@ -37,7 +37,6 @@ public class OvitoWriterObserver extends Observer {
        if (timeAnimation <= 0) {
             System.out.println("[OvitoWriterObserver] Animation saved at: " + s.getTimeSimulation());
             Hourglass h = s.getHourglass();
-            System.out.println(h);
             writeHourglassFrame(h);
             timeAnimation += ANIMATION_DT;
        }

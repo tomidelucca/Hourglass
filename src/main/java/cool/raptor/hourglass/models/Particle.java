@@ -96,6 +96,10 @@ public class Particle {
         return getPosition().distanceToVector(otherParticle.getPosition()) - getRadius() - otherParticle.getRadius();
     }
 
+    public Boolean isTouching(Particle otherParticle) {
+        return distanceToParticle(otherParticle) <= (getRadius() + otherParticle.getRadius());
+    }
+
     private static Integer getNextId() {
         return idCount++;
     }
@@ -127,7 +131,7 @@ public class Particle {
     }
 
     public String print() {
-        return position.getX() + " " + position.getY() + " " + position.getZ() + " " + velocity.getX() + " " + velocity.getY() + " " + velocity.getZ() + " " + radius;
+        return position.getX() + " " + position.getY() + " " + position.getZ() + " " + velocity.getX() + " " + velocity.getY() + " " + velocity.getZ() + " " + radius + " " + (fixed?"1 1 1":"1 0 0");
     }
 
     public Vector getPrevVelocity() {

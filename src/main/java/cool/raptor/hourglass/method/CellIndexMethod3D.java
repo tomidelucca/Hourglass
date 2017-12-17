@@ -8,7 +8,7 @@ public class CellIndexMethod3D {
 
     public static Map<Particle, Set<Particle>> neighbours(List<Particle> particles, double L, int M, double Rc) {
 
-        CubicMatrix matrix = CellIndexMethod3D.createAndPopulateMatrix(particles, M, L);
+        /*CubicMatrix matrix = CellIndexMethod3D.createAndPopulateMatrix(particles, M, L);
 
         Map<Particle, Set<Particle>> result = CellIndexMethod3D.createAndPopulateEmptyMap(particles);
 
@@ -40,9 +40,24 @@ public class CellIndexMethod3D {
                     }
                 }
             }
-        }
+        }*/
 
-        return result;
+        Map<Particle, Set<Particle>> ret = new HashMap<>();
+        for (Particle p1 : particles) {
+            if (!ret.containsKey(p1))
+                ret.put(p1, new HashSet<>());
+            for (Particle p2 : particles) {
+                if (p1.getId() != p2.getId() && p1.isTouching(p2)) {
+                    if (!ret.get(p1).contains(p2)) {
+                        ret.get(p1).add(p2);
+                        if (!ret.containsKey(p2))
+                            ret.put(p2, new HashSet<>());
+                        ret.get(p2).add(p1);
+                    }
+                }
+            }
+        }
+        return ret;
     }
 
     private static Map<Particle, Set<Particle>> createAndPopulateEmptyMap(List<Particle> particles) {
