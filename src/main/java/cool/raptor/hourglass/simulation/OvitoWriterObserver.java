@@ -1,6 +1,7 @@
 package cool.raptor.hourglass.simulation;
 
 import cool.raptor.hourglass.HourglassSimulation;
+import cool.raptor.hourglass.models.Hourglass;
 import cool.raptor.hourglass.models.Particle;
 import cool.raptor.hourglass.ovito.OvitoFile;
 
@@ -23,7 +24,7 @@ public class OvitoWriterObserver extends Observer {
     @Override
     public void simulationDidStart(Simulation simulation) {
         HourglassSimulation s = (HourglassSimulation) simulation;
-        ovitoFile.writeFrame(s.getParticles());
+        writeHourglassFrame(s.getHourglass());
         System.out.println("[OvitoWriterObserver] Started...");
     }
 
@@ -33,19 +34,25 @@ public class OvitoWriterObserver extends Observer {
 
         timeAnimation -= HourglassSimulation.getSimulationDt();
 
-        //if (timeAnimation <= 0) {
+       if (timeAnimation <= 0) {
             System.out.println("[OvitoWriterObserver] Animation saved at: " + s.getTimeSimulation());
-            List<Particle> frame = new ArrayList<>(s.getParticles().size() + s.getHourglass().getStructure().size());
-            frame.addAll(s.getParticles());
-            frame.addAll(s.getHourglass().getStructure());
-            ovitoFile.writeFrame(frame);
+            Hourglass h = s.getHourglass();
+            System.out.println(h);
+            writeHourglassFrame(h);
             timeAnimation += ANIMATION_DT;
-        //}
+       }
     }
 
     @Override
     public void simulationDidFinish(Simulation simulation) {
         ovitoFile.closeFile();
         System.out.println("[OvitoWriterObserver] Finished...");
+    }
+
+    private void writeHourglassFrame(Hourglass h) {
+        List<Particle> frame = new ArrayList<>(h.getStructure().size() + h.getParticles().size());
+        frame.addAll(h.getParticles());
+        frame.addAll(h.getStructure());
+        ovitoFile.writeFrame(frame);
     }
 }

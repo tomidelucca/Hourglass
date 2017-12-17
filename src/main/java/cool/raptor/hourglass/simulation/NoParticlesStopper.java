@@ -26,7 +26,7 @@ public class NoParticlesStopper implements SimulationObserver {
     public Boolean shouldStopSimulation(Simulation simulation) {
         HourglassSimulation s = (HourglassSimulation) simulation;
 
-        List<Particle> particles = s.getParticles();
+        List<Particle> particles = s.getHourglass().getParticles();
 
         return particles.size() <= 0;
     }

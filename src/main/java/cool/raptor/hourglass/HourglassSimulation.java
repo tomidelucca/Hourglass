@@ -1,14 +1,14 @@
 package cool.raptor.hourglass;
 
-import cool.raptor.hourglass.generator.HourglassStructureGenerator;
-import cool.raptor.hourglass.generator.ParticleGenerator;
+import cool.raptor.hourglass.algorithm.LeapFrog;
+import cool.raptor.hourglass.force.ForceParticles;
+import cool.raptor.hourglass.method.CellIndexMethod3D;
 import cool.raptor.hourglass.models.Hourglass;
 import cool.raptor.hourglass.models.Particle;
+import cool.raptor.hourglass.models.ParticleConfiguration;
 import cool.raptor.hourglass.simulation.Simulation;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,11 +28,14 @@ public class HourglassSimulation extends Simulation {
     private static double KN = 1E-4;
     private static double GAMMA = 100;
 
-    private List<Particle> particles = null;
     private Hourglass hourglass = null;
 
     private double timeSimulation = SIMULATION_TIME;
     private double timeAnimation = ANIMATION_DT;
+
+    public static double getSimulationDt() {
+        return SIMULATION_DT;
+    }
 
     @Override
     public Boolean simulate() {
@@ -46,12 +49,12 @@ public class HourglassSimulation extends Simulation {
         double[] force;
         double[] sumForce = {0, 0, 0};
 
-        /*startSimulation();
-        while (!shouldStopSimulation()) {
+        startSimulation();
+        /*while (!shouldStopSimulation()) {
 
             //TODO fixed particles stuff
 
-            map = CellIndexMethod3D.neighbours(particles, HG_HEIGHT, M, RC);
+            map = CellIndexMethod3D.neighbours(hourglass.getParticles(), HG_HEIGHT, M, RC);
 
             for(Map.Entry<Particle, Set<Particle>> entry : map.entrySet()) {
 
@@ -73,12 +76,10 @@ public class HourglassSimulation extends Simulation {
                     sumForce[1] += force[1]; //y
                     sumForce[2] += force[2]; //z
 
-                    /*
-                    force = ForceWall.total(p, walls, KN, KT);      //TODO fix to add wall forces
-                    sumForce[0] += force[0]; //x
-                    sumForce[1] += force[1]; //y
-                    sumForce[2] += force[2]; //z
-
+//                    force = ForceWall.total(p, walls, KN, KT);      //TODO fix to add wall forces
+//                    sumForce[0] += force[0]; //x
+//                    sumForce[1] += force[1]; //y
+//                    sumForce[2] += force[2]; //z
 
                     sumForce[2] += p.getMass() * GRAVITY; //z
 
@@ -111,20 +112,8 @@ public class HourglassSimulation extends Simulation {
 
     @Override
     public void initialize() {
-        hourglass = new Hourglass(HG_RADIUS, HG_RADIUS/5);
-        particles = ParticleGenerator.generate(HG_RADIUS/2, MASS, hourglass, 300);
-    }
-
-    public static double getSimulationDt() {
-        return SIMULATION_DT;
-    }
-
-    public List<Particle> getParticles() {
-        return particles;
-    }
-
-    public void setParticles(List<Particle> particles) {
-        this.particles = particles;
+        ParticleConfiguration config = new ParticleConfiguration(HG_RADIUS/2, MASS, 300);
+        hourglass = new Hourglass(HG_RADIUS, HG_RADIUS/5, config);
     }
 
     public Hourglass getHourglass() {

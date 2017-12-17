@@ -2,6 +2,7 @@ package cool.raptor.hourglass.generator;
 
 import cool.raptor.hourglass.models.Hourglass;
 import cool.raptor.hourglass.models.Particle;
+import cool.raptor.hourglass.models.ParticleConfiguration;
 import cool.raptor.hourglass.models.Vector;
 
 import java.util.ArrayList;
@@ -9,10 +10,10 @@ import java.util.List;
 
 public class ParticleGenerator {
 
-	public static List<Particle> generate(double radius, double mass, Hourglass hourglass, int maxParticles) {
+	public static List<Particle> generate(ParticleConfiguration configuration, Hourglass hourglass) {
 		List<Particle> listParticle = new ArrayList<Particle>();
-		double maxRadius = (radius/5)/2;
-		double minRadius = (radius/7)/2;
+		double maxRadius = (configuration.getRadius()/5)/2;
+		double minRadius = (configuration.getRadius()/7)/2;
 		double tries = 1E2;
 		double counterTries = tries;
 		double hourglassRadius = hourglass.getRadius();
@@ -21,13 +22,13 @@ public class ParticleGenerator {
 		Vector velocity;
 		double exactRadius;
 
-		while(counterTries > 0 && listParticle.size() <= maxParticles) {
+		while(counterTries > 0 && listParticle.size() <= configuration.getMaxParticles()) {
 			position = new Vector(Math.random() * 2 * hourglassRadius - hourglassRadius,
 					Math.random() * 2 * hourglassRadius - hourglassRadius,
 					Math.random() * hourglassRadius);
 			velocity = Vector.zero();
 			exactRadius = Math.random() * (minRadius - maxRadius) + minRadius;
-			particle = new Particle(position, velocity, exactRadius, mass, Boolean.FALSE);
+			particle = new Particle(position, velocity, exactRadius, configuration.getMass(), Boolean.FALSE);
 
 			if (hourglass.isParticleInside(particle) && validParticle(particle, listParticle)) {
 				listParticle.add(particle);

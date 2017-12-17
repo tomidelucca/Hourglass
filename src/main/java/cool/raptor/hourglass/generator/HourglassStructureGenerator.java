@@ -15,7 +15,7 @@ public class HourglassStructureGenerator {
         List<Particle> structure = new ArrayList<>();
         double h = hourglass.getHeight();
         double r = hourglass.getRadius();
-        double sr = 0.01;
+        double sr = hourglass.getConfiguration().getRadius() / 50;
         double percentage = 50.0;
         Particle p;
         for (double i = Math.sqrt(Math.pow(r, 2) - Math.pow(h, 2)); i < r; i += (r / percentage)) {
