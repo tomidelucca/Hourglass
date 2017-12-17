@@ -8,16 +8,46 @@ public class Particle {
     private Double radius;
     private Double mass;
 
+    private Vector prevVelocity;
+    private Vector nextVelocity;
+    private Vector prevPosition;
+    private Vector nextPosition;
+    private boolean visible;
+    private boolean fixed;
+
     public Particle(Vector position) {
         this.position = position;
     }
 
-    public Particle(int id, Vector position, Vector velocity, Double radius, Double mass) {
+    public Particle(int id, Vector position, Vector velocity, Double radius, Double mass, boolean fixed) {
         this.id = id;
         this.position = position;
         this.velocity = velocity;
         this.radius = radius;
         this.mass = mass;
+
+        prevPosition = position;
+        nextPosition = position;
+        prevVelocity = velocity;
+        nextVelocity = velocity;
+
+        this.setVisible(true);
+        this.fixed = fixed;
+    }
+
+    public Particle(Particle p) {
+        this.id = p.getId();
+        this.position = p.getPosition();
+        this.velocity = p.getVelocity();
+        this.radius = p.getRadius();
+        this.mass = p.getMass();
+
+        this.prevPosition = p.getPrevPosition();
+        this.prevVelocity = p.getPrevVelocity();
+        this.nextPosition = p.getNextPosition();
+        this.nextVelocity = p.getNextVelocity();
+
+        this.setVisible(true);
     }
 
     public int getId() {
@@ -97,5 +127,49 @@ public class Particle {
 
     public String print() {
         return position.getX() + " " + position.getY() + " " + position.getZ() + " " + velocity.getX() + " " + velocity.getY() + " " + velocity.getZ() + " " + radius;
+    }
+
+    public Vector getPrevVelocity() {
+        return prevVelocity;
+    }
+
+    public Vector getNextVelocity() {
+        return nextVelocity;
+    }
+
+    public Vector getPrevPosition() {
+        return prevPosition;
+    }
+
+    public Vector getNextPosition() {
+        return nextPosition;
+    }
+
+    public void setPrevVelocity(Vector prevVelocity) {
+        this.prevVelocity = prevVelocity;
+    }
+
+    public void setNextVelocity(Vector nextVelocity) {
+        this.nextVelocity = nextVelocity;
+    }
+
+    public void setPrevPosition(Vector prevPosition) {
+        this.prevPosition = prevPosition;
+    }
+
+    public void setNextPosition(Vector nextPosition) {
+        this.nextPosition = nextPosition;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public boolean isFixed() {
+        return fixed;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

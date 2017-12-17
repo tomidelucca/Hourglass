@@ -24,14 +24,14 @@ public class ParticleGenerator {
 //		while(counterTries > 0 && listParticle.size() < particulas) { //cantidad fija de particulas
 
 		while(counterTries > 0) { // maxima cantidad de particulas. descomentar y comentar las otras dos.
-			position = new Vector(Math.random() * 2 * hourglassRadius - hourglassRadius,
+			position = new Vector(Math.random() * 2 * hourglassRadius - hourglassRadius,		//TODO ver que esten dentro de la semi-esfera, ahora pongo en un cilindro
 					Math.random() * 2 * hourglassRadius - hourglassRadius,
 					Math.random() * hourglassHeight);
 			velocity = new Vector(0.0, 0.0, 0.0);
 			radius = Math.random() * (minRadius - maxRadius) + minRadius;
 //			radius = maxRadius;
 //			radius = 0.1;
-			particle = new Particle(id, position, velocity, radius, mass);
+			particle = new Particle(id, position, velocity, radius, mass, Boolean.FALSE);
 
 			if (!outOfBound(particle, hourglassHeight, hourglassRadius) && validParticle(particle, listParticle)) {
 				listParticle.add(particle);
@@ -56,10 +56,9 @@ public class ParticleGenerator {
 
 	private static boolean validParticle(Particle particle, List<Particle> listParticle) {
 		for(Particle p: listParticle) {
-			if(isOverlap(particle, p))
+			if (isOverlap(particle, p))
 				return false;
 		}
-		
 		return true;
 	}
 
