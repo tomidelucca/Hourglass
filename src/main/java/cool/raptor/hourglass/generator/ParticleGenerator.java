@@ -23,11 +23,11 @@ public class ParticleGenerator {
 		double exactRadius;
 
 		while(counterTries > 0 && listParticle.size() <= configuration.getMaxParticles()) {
-			position = new Vector(Math.random() * 2 * hourglassRadius - hourglassRadius,
-					Math.random() * 2 * hourglassRadius - hourglassRadius,
-					Math.random() * hourglassRadius);
+            exactRadius = Math.random() * (minRadius - maxRadius) + minRadius;
+			position = new Vector(Math.random() * 2 * (hourglassRadius - exactRadius) - hourglassRadius + exactRadius,
+					Math.random() * 2 * (hourglassRadius - exactRadius) - hourglassRadius + exactRadius,
+					Math.random() * (hourglass.getHeight() - 2 * exactRadius) + exactRadius);
 			velocity = Vector.zero();
-			exactRadius = Math.random() * (minRadius - maxRadius) + minRadius;
 			particle = new Particle(position, velocity, exactRadius, configuration.getMass(), Boolean.FALSE);
 
 			if (hourglass.isParticleInside(particle) && validParticle(particle, listParticle)) {

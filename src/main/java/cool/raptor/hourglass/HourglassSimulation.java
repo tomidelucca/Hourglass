@@ -95,8 +95,8 @@ public class HourglassSimulation extends Simulation {
 
     @Override
     public void initialize() {
-        ParticleConfiguration config = new ParticleConfiguration(HG_RADIUS, MASS, 120);
-        hourglass = new Hourglass(HG_RADIUS, 0.4, config);
+        ParticleConfiguration config = new ParticleConfiguration(HG_RADIUS/1.5, MASS, 100);
+        hourglass = new Hourglass(HG_RADIUS, HG_RADIUS/5, config);
     }
 
     public Hourglass getHourglass() {
