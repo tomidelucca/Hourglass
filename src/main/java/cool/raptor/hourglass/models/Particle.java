@@ -28,12 +28,12 @@ public class Particle {
         this.radius = radius;
         this.mass = mass;
 
-        prevPosition = position;
-        nextPosition = position;
-        prevVelocity = velocity;
-        nextVelocity = velocity;
+        this.prevPosition = position;
+        this.nextPosition = position;
+        this.prevVelocity = velocity;
+        this.nextVelocity = velocity;
 
-        this.setVisible(true);
+        this.visible = true;
         this.fixed = fixed;
     }
 
@@ -49,7 +49,7 @@ public class Particle {
         this.nextPosition = p.getNextPosition();
         this.nextVelocity = p.getNextVelocity();
 
-        this.setVisible(true);
+        this.visible = true;
     }
 
     public int getId() {

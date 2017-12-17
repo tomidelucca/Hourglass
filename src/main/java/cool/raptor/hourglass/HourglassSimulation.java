@@ -9,6 +9,7 @@ import cool.raptor.hourglass.models.ParticleConfiguration;
 import cool.raptor.hourglass.simulation.Simulation;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,11 +19,7 @@ public class HourglassSimulation extends Simulation {
     private static double SIMULATION_DT = 1E-6;
     private static double ANIMATION_DT = 2 * 1E-2;
 
-    private static double HG_HEIGHT = 5;
     private static double HG_RADIUS = 1;
-    private static int M = 19;
-    private static double RC = 0.2;
-    private static double D = 1;
     private static double MASS = 1E-2;
     private static double GRAVITY = -10;
     private static double KN = 1E-4;
@@ -41,27 +38,21 @@ public class HourglassSimulation extends Simulation {
     public Boolean simulate() {
         initialize();
 
-        //Particula y sus vecinas
-        Map<Particle, Set<Particle>> map;
+        // Particle's neighbour
+        Map<Particle, Set<Particle>> neighbours;
 
-        Particle p;
-        Set<Particle> setp;
-        double[] force;
-        double[] sumForce = {0, 0, 0};
+        // Walls
+        List<Particle> walls;
 
         startSimulation();
-        /*while (!shouldStopSimulation()) {
+        while (!shouldStopSimulation()) {
 
-            //TODO fixed particles stuff
+            neighbours = hourglass.getNeighbours();
+            // walls = hourglass.getWalls();
 
-            map = CellIndexMethod3D.neighbours(hourglass.getParticles(), HG_HEIGHT, M, RC);
+            for (Particle p : hourglass.getParticles()) {
+                Set<Particle> pneigh = neighbours.get(p);
 
-            for(Map.Entry<Particle, Set<Particle>> entry : map.entrySet()) {
-
-                p = entry.getKey();
-                setp = entry.getValue();
-
-                //Leap Frog Algorithm part-1
                 p.setPrevPosition(p.getPosition());
                 p.setPrevVelocity(p.getVelocity());
 
@@ -71,32 +62,33 @@ public class HourglassSimulation extends Simulation {
                 p.setVelocity(p.getNextVelocity());
 
                 if (!p.isFixed() && p.isVisible()) {
-                    force = ForceParticles.total(p, setp, KN, GAMMA);
+                    double[] force = ForceParticles.total(p, pneigh, KN, GAMMA);
+                    double[] sumForce = {0, 0, 0};
+
+                    // Forces from other particles
                     sumForce[0] += force[0]; //x
                     sumForce[1] += force[1]; //y
                     sumForce[2] += force[2]; //z
 
-//                    force = ForceWall.total(p, walls, KN, KT);      //TODO fix to add wall forces
-//                    sumForce[0] += force[0]; //x
-//                    sumForce[1] += force[1]; //y
-//                    sumForce[2] += force[2]; //z
+                    // Forces from walls
+//                  force = ForceWall.total(p, walls, KN, KT);      //TODO fix to add wall forces
+//                  sumForce[0] += force[0]; //x
+//                  sumForce[1] += force[1]; //y
+//                  sumForce[2] += force[2]; //z
 
+                    // Gravity
                     sumForce[2] += p.getMass() * GRAVITY; //z
 
-                    //Leap Frog Algorithm part-2
+                    // Update position and velocity
                     p.setNextVelocity(LeapFrog.velocity(p, sumForce, SIMULATION_DT));
                     p.setNextPosition(LeapFrog.position(p, SIMULATION_DT));
                 }
-
-                sumForce[0] = 0;
-                sumForce[1] = 0;
-                sumForce[2] = 0;
             }
 
             timeSimulation -= SIMULATION_DT;
 
             updateObservers();
-        }*/
+        }
 
         updateObservers();
 

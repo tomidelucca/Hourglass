@@ -2,13 +2,15 @@ package cool.raptor.hourglass.models;
 
 import cool.raptor.hourglass.generator.HourglassStructureGenerator;
 import cool.raptor.hourglass.generator.ParticleGenerator;
+import cool.raptor.hourglass.method.CellIndexMethod3D;
 
-import java.util.List;
+import java.util.*;
 
 public class Hourglass {
 
     private List<Particle> structure;
     private List<Particle> particles;
+    private Map<Particle, Set<Particle>> neighbours;
 
     private Double height;
     private Double holeRadius;
@@ -36,6 +38,18 @@ public class Hourglass {
         return particles;
     }
 
+    public Map<Particle, Set<Particle>> getNeighbours() {
+        neighbours = CellIndexMethod3D.neighbours(getParticles(), height, 19, 0.2);
+        return neighbours;
+    }
+
+    public List<Particle> getWalls() {
+        if (neighbours == null) {
+            throw new RuntimeException("Walls are constructed based on the neighbours");
+        }
+        return new ArrayList<>();
+    }
+
     public Double getHeight() {
         return height;
     }
@@ -59,4 +73,5 @@ public class Hourglass {
     private double distanceToCenterTop(double x, double y, double z) {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z - height, 2));
     }
+
 }
