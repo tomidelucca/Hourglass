@@ -1,18 +1,18 @@
 package cool.raptor.hourglass;
 
-import cool.raptor.hourglass.algorithm.LeapFrog;
-import cool.raptor.hourglass.force.ForceParticles;
+import cool.raptor.hourglass.generator.HourglassStructureGenerator;
 import cool.raptor.hourglass.generator.ParticleGenerator;
-import cool.raptor.hourglass.method.CellIndexMethod3D;
+import cool.raptor.hourglass.models.Hourglass;
 import cool.raptor.hourglass.models.Particle;
 import cool.raptor.hourglass.simulation.Simulation;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Hourglass extends Simulation {
+public class HourglassSimulation extends Simulation {
 
     private static double SIMULATION_TIME = 1000;
     private static double SIMULATION_DT = 1E-6;
@@ -29,6 +29,7 @@ public class Hourglass extends Simulation {
     private static double GAMMA = 100;
 
     private List<Particle> particles = null;
+    private Hourglass hourglass = null;
 
     private double timeSimulation = SIMULATION_TIME;
     private double timeAnimation = ANIMATION_DT;
@@ -45,7 +46,7 @@ public class Hourglass extends Simulation {
         double[] force;
         double[] sumForce = {0, 0, 0};
 
-        startSimulation();
+        /*startSimulation();
         while (!shouldStopSimulation()) {
 
             //TODO fixed particles stuff
@@ -77,7 +78,7 @@ public class Hourglass extends Simulation {
                     sumForce[0] += force[0]; //x
                     sumForce[1] += force[1]; //y
                     sumForce[2] += force[2]; //z
-                    */
+
 
                     sumForce[2] += p.getMass() * GRAVITY; //z
 
@@ -94,7 +95,9 @@ public class Hourglass extends Simulation {
             timeSimulation -= SIMULATION_DT;
 
             updateObservers();
-        }
+        }*/
+
+        updateObservers();
 
         finishSimulation();
 
@@ -108,13 +111,8 @@ public class Hourglass extends Simulation {
 
     @Override
     public void initialize() {
-        //Genero las particulas
-        List<Particle> particles = ParticleGenerator.generate(HG_HEIGHT, HG_RADIUS, D, MASS);
-
-        //TODO generar el hourglass
-
-
-        setParticles(particles);
+        hourglass = new Hourglass(HG_RADIUS, HG_RADIUS/5);
+        particles = ParticleGenerator.generate(HG_RADIUS/2, MASS, hourglass, 300);
     }
 
     public static double getSimulationDt() {
@@ -127,6 +125,10 @@ public class Hourglass extends Simulation {
 
     public void setParticles(List<Particle> particles) {
         this.particles = particles;
+    }
+
+    public Hourglass getHourglass() {
+        return hourglass;
     }
 
     public double getTimeSimulation() {

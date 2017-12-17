@@ -50,6 +50,10 @@ public class Vector {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
     }
 
+    public static Vector zero() {
+        return new Vector(0.0, 0.0, 0.0);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

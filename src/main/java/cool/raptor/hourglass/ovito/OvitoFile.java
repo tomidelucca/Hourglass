@@ -29,7 +29,7 @@ public class OvitoFile {
 		this.path = path;
 	}
 
-	public void write(List<Particle> listParticle) {
+	public void writeFrame(List<Particle> listParticle) {
         this.writer.println(listParticle.size());
         this.writer.println(frame++);
 

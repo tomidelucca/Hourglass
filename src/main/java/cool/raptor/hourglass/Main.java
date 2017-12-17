@@ -4,7 +4,7 @@ import cool.raptor.hourglass.simulation.*;
 
 public class Main {
 
-    public static final int SIMULATIONS = 5;
+    public static final int SIMULATIONS = 1;
 
     public static void main(String[] args) {
 
@@ -12,7 +12,7 @@ public class Main {
             String name = "sim_" + i;
 
             //Create simulation
-            Simulation simulation = new Hourglass();
+            Simulation simulation = new HourglassSimulation();
 
             //Create observers
             SimulationObserver ovitoObserver = new OvitoWriterObserver(name + ".xyz");

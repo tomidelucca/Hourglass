@@ -1,5 +1,6 @@
 package cool.raptor.hourglass.generator;
 
+import cool.raptor.hourglass.models.Hourglass;
 import cool.raptor.hourglass.models.Particle;
 import cool.raptor.hourglass.models.Vector;
 
@@ -8,50 +9,34 @@ import java.util.List;
 
 public class ParticleGenerator {
 
-	public static List<Particle> generate(double hourglassHeight, double hourglassRadius, double D, double mass) {
+	public static List<Particle> generate(double radius, double mass, Hourglass hourglass, int maxParticles) {
 		List<Particle> listParticle = new ArrayList<Particle>();
-		double maxRadius = (D/5)/2;
-		double minRadius = (D/7)/2;
-		double tries = 1E6;
+		double maxRadius = (radius/5)/2;
+		double minRadius = (radius/7)/2;
+		double tries = 1E2;
 		double counterTries = tries;
-		int id = 0;
+		double hourglassRadius = hourglass.getRadius();
 		Particle particle;
 		Vector position;
 		Vector velocity;
-		double radius;
+		double exactRadius;
 
-//		int particulas = 300; //cantidad fija de particulas
-//		while(counterTries > 0 && listParticle.size() < particulas) { //cantidad fija de particulas
-
-		while(counterTries > 0) { // maxima cantidad de particulas. descomentar y comentar las otras dos.
-			position = new Vector(Math.random() * 2 * hourglassRadius - hourglassRadius,		//TODO ver que esten dentro de la semi-esfera, ahora pongo en un cilindro
+		while(counterTries > 0 && listParticle.size() <= maxParticles) {
+			position = new Vector(Math.random() * 2 * hourglassRadius - hourglassRadius,
 					Math.random() * 2 * hourglassRadius - hourglassRadius,
-					Math.random() * hourglassHeight);
-			velocity = new Vector(0.0, 0.0, 0.0);
-			radius = Math.random() * (minRadius - maxRadius) + minRadius;
-//			radius = maxRadius;
-//			radius = 0.1;
-			particle = new Particle(id, position, velocity, radius, mass, Boolean.FALSE);
+					Math.random() * hourglassRadius);
+			velocity = Vector.zero();
+			exactRadius = Math.random() * (minRadius - maxRadius) + minRadius;
+			particle = new Particle(position, velocity, exactRadius, mass, Boolean.FALSE);
 
-			if (!outOfBound(particle, hourglassHeight, hourglassRadius) && validParticle(particle, listParticle)) {
+			if (hourglass.isParticleInside(particle) && validParticle(particle, listParticle)) {
 				listParticle.add(particle);
 				counterTries = tries;
-				id++;
-			} else
+			} else {
 				counterTries--;
+			}
 		}
-		
-		System.out.println("[LOG] Number of particles: " + listParticle.size());
 		return listParticle;
-	}
-	
-	private static boolean outOfBound(Particle particle, double hourglassHeight, double hourglassRadius) {
-		if(particle.getPosition().getX() - particle.getRadius() > -hourglassRadius && particle.getPosition().getX() + particle.getRadius() < hourglassRadius &&
-				particle.getPosition().getY() - particle.getRadius() > -hourglassRadius && particle.getPosition().getY() + particle.getRadius() < hourglassRadius &&
-				particle.getPosition().getZ() - particle.getRadius() > 0 && particle.getPosition().getZ() + particle.getRadius() < hourglassHeight)
-			return false;
-		
-		return true;
 	}
 
 	private static boolean validParticle(Particle particle, List<Particle> listParticle) {
@@ -72,4 +57,5 @@ public class ParticleGenerator {
 	private static double overlap(Particle p, Particle other) {
 		return p.getRadius() + other.getRadius() - Vector.rest(p.getPosition(), other.getPosition()).mod();
 	}
+
 }

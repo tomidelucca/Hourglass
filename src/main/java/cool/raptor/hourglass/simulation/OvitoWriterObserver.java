@@ -1,9 +1,12 @@
 package cool.raptor.hourglass.simulation;
 
-import cool.raptor.hourglass.Hourglass;
+import cool.raptor.hourglass.HourglassSimulation;
+import cool.raptor.hourglass.models.Particle;
 import cool.raptor.hourglass.ovito.OvitoFile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OvitoWriterObserver extends Observer {
 
@@ -19,22 +22,25 @@ public class OvitoWriterObserver extends Observer {
 
     @Override
     public void simulationDidStart(Simulation simulation) {
-        Hourglass s = (Hourglass) simulation;
-        ovitoFile.write(s.getParticles());
+        HourglassSimulation s = (HourglassSimulation) simulation;
+        ovitoFile.writeFrame(s.getParticles());
         System.out.println("[OvitoWriterObserver] Started...");
     }
 
     @Override
     public void notify(Simulation simulation) {
-        Hourglass s = (Hourglass) simulation;
+        HourglassSimulation s = (HourglassSimulation) simulation;
 
-        timeAnimation -= Hourglass.getSimulationDt();
+        timeAnimation -= HourglassSimulation.getSimulationDt();
 
-        if (timeAnimation <= 0) {
+        //if (timeAnimation <= 0) {
             System.out.println("[OvitoWriterObserver] Animation saved at: " + s.getTimeSimulation());
-            ovitoFile.write(s.getParticles());
+            List<Particle> frame = new ArrayList<>(s.getParticles().size() + s.getHourglass().getStructure().size());
+            frame.addAll(s.getParticles());
+            frame.addAll(s.getHourglass().getStructure());
+            ovitoFile.writeFrame(frame);
             timeAnimation += ANIMATION_DT;
-        }
+        //}
     }
 
     @Override

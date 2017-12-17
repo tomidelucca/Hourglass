@@ -1,6 +1,6 @@
 package cool.raptor.hourglass.simulation;
 
-import cool.raptor.hourglass.Hourglass;
+import cool.raptor.hourglass.HourglassSimulation;
 import cool.raptor.hourglass.models.Particle;
 
 import java.util.List;
@@ -18,13 +18,13 @@ public class NoParticlesStopper implements SimulationObserver {
 
     @Override
     public void simulationDidFinish(Simulation simulation) {
-        Hourglass s = (Hourglass) simulation;
+        HourglassSimulation s = (HourglassSimulation) simulation;
         System.out.println("[NoParticlesStopper] Finished in " + s.getTimeSimulation() + " s.");
     }
 
     @Override
     public Boolean shouldStopSimulation(Simulation simulation) {
-        Hourglass s = (Hourglass) simulation;
+        HourglassSimulation s = (HourglassSimulation) simulation;
 
         List<Particle> particles = s.getParticles();
 
