@@ -19,5 +19,17 @@ java -jar target/hourglass-1.0-SNAPSHOT.jar [parameters]
 
 ## Supported parameters
 
+| **Key** |      **Reference**      |
+|:---:|:-------------------:|
+|  -R |  Semisphere radius  |
+|  -r |   Particle radius   |
+|  -m |    Particle mass    |
+|  -a |      Hole size      |
+|  -n |    Max particles    |
+|  -t | Simulation duration |
+|  -i |         Runs        |
+
 ## Credits
 © Raptor/2, 2017.
+
+
