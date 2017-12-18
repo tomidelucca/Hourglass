@@ -15,20 +15,21 @@ import java.util.Set;
 
 public class HourglassSimulation extends Simulation {
 
-    private static double SIMULATION_TIME = 5;
-    private static double SIMULATION_DT = 5E-5;
-    private static double ANIMATION_DT = 1E-2;
+    double SIMULATION_TIME = 5;
+    double HG_RADIUS = 1;
+    double P_RADIUS = 1;
+    double HG_H_RADIUS = 1/5;
+    int MAX_PARTICLES = 200;
+    double MASS = 1E-2;
 
-    private static double HG_RADIUS = 1;
-    private static double MASS = 1E-2;
+    private static double SIMULATION_DT = 5E-5;
     private static double GRAVITY = -10;
-    private static double KN = 1E-4;
+    private static double KN = 1E5;
     private static double GAMMA = 10;
 
     private Hourglass hourglass = null;
 
-    private double timeSimulation = SIMULATION_TIME;
-    private double timeAnimation = ANIMATION_DT;
+    private double timeSimulation;
 
     public static double getSimulationDt() {
         return SIMULATION_DT;
@@ -37,6 +38,7 @@ public class HourglassSimulation extends Simulation {
     @Override
     public Boolean simulate() {
         initialize();
+        timeSimulation = SIMULATION_TIME;
 
         // Particle's neighbour
         Map<Particle, Set<Particle>> neighbours;
@@ -95,8 +97,8 @@ public class HourglassSimulation extends Simulation {
 
     @Override
     public void initialize() {
-        ParticleConfiguration config = new ParticleConfiguration(HG_RADIUS, MASS, 100);
-        hourglass = new Hourglass(HG_RADIUS, HG_RADIUS/5, config);
+        ParticleConfiguration config = new ParticleConfiguration(P_RADIUS, MASS, MAX_PARTICLES);
+        hourglass = new Hourglass(HG_RADIUS, HG_H_RADIUS, config);
     }
 
     public Hourglass getHourglass() {
