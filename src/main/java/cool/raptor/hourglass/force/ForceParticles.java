@@ -29,7 +29,7 @@ public class ForceParticles {
                 overlapValue = overlap(p, particle);
                 speedDelta = Vector.rest(p.getPrevVelocity(),particle.getPrevVelocity());
 
-                normalForceValue = - kn * overlapValue - gamma * (speedDelta.getX() * enx + speedDelta.getY() * eny + speedDelta.getZ() * enz);
+                normalForceValue = (- kn * overlapValue) - gamma * (speedDelta.getX() * enx + speedDelta.getY() * eny + speedDelta.getZ() * enz);
 
                 forceX += normalForceValue * enx;
                 forceY += normalForceValue * eny;

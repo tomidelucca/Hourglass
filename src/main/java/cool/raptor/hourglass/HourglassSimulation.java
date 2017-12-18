@@ -16,8 +16,8 @@ import java.util.Set;
 public class HourglassSimulation extends Simulation {
 
     private static double SIMULATION_TIME = 5;
-    private static double SIMULATION_DT = 5E-6;
-    private static double ANIMATION_DT = 2 * 1E-2;
+    private static double SIMULATION_DT = 5E-5;
+    private static double ANIMATION_DT = 1E-2;
 
     private static double HG_RADIUS = 1;
     private static double MASS = 1E-2;
@@ -95,7 +95,7 @@ public class HourglassSimulation extends Simulation {
 
     @Override
     public void initialize() {
-        ParticleConfiguration config = new ParticleConfiguration(HG_RADIUS/1.5, MASS, 100);
+        ParticleConfiguration config = new ParticleConfiguration(HG_RADIUS, MASS, 100);
         hourglass = new Hourglass(HG_RADIUS, HG_RADIUS/5, config);
     }
 

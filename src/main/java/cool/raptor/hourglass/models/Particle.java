@@ -97,7 +97,7 @@ public class Particle {
     }
 
     public Boolean isTouching(Particle otherParticle) {
-        return distanceToParticle(otherParticle) <= (getRadius() + otherParticle.getRadius());
+        return distanceToParticle(otherParticle) <= 0;
     }
 
     private static Integer getNextId() {
